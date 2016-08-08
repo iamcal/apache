@@ -756,6 +756,8 @@ static int do_headers_fixup(request_rec *r, apr_table_t *headers,
             apr_table_setn(headers, hdr->header, process_tags(hdr, r));
             break;
         case hdr_unset:
+            val = apr_table_get(headers, hdr->header);
+            apr_table_set(r->subprocess_env, hdr->header, val);
             apr_table_unset(headers, hdr->header);
             break;
         case hdr_echo:
